@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nsl-proxy-chatserver
+  name: nsl-proxy-chatserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nsl-proxy-chatserver
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nsl-proxy-chatserver
+    spec:
+      containers:
+      - image: localhost:5000/nsl-chat-proxyserver
+        name: nsl-chat-proxyserver
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nsl-chat-proxyserver
+  name: nsl-chat-proxyserver
+spec:
+  ports:
+  - name: 8081-8081
+    port: 8081
+    protocol: TCP
+    targetPort: 8081
+  selector:
+    app: nsl-chat-proxyserver
+  type: NodePort
+status:
+  loadBalancer: {}
